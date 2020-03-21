@@ -13,7 +13,7 @@ ctx.textBaseline ="middle";
 
 draw();
 var fps = 0;
-var count =1;
+var count = 1;
 var ps = 0;
 
 function draw() {
@@ -22,33 +22,24 @@ function draw() {
   ctx.arc(100, 100, 90, 0, 2 * Math.PI);
   ctx.fillStyle ="lightgrey";
   ctx.fill();
-  ctx.closePath();
-
   ctx.fillStyle ="black";  
-
-  for(var i = 0; i < 12; i++) {     
-    ctx.beginPath();
-    ctx.translate(100, 100);
-    ctx.rotate(i * Math.PI * 2 / 12);  
+ 
+  ctx.translate(100, 100);
+  for(var i = 0; i < 12; i++) {    
+    ctx.rotate(Math.PI * 2 / 12);  
     ctx.fillRect(-2, -90, 4, 10);
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.closePath();
   }
 
   for(var i = 0; i < 60; i++) {     
-    ctx.beginPath();
-    ctx.translate(100, 100);
-    ctx.rotate(i * Math.PI * 2 / 60);  
+    ctx.rotate(Math.PI * 2 / 60);  
     ctx.fillRect(-1, -90, 2, 5);
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.closePath();
   }
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  var time = new Date();
+  drawSecondsTickle(time);
+  drawMinutesTickle(time);
+  drawHoursTickle(time);
 
-  drawSecondsTickle();
-  drawMinutesTickle();
-  drawHoursTickle();
-
-  ctx.beginPath();
   ctx.fillStyle = "blue"
   ctx.textAlign = "center";
   for(var i = 0; i < 12; i++) {
@@ -56,21 +47,20 @@ function draw() {
     var y = 95 * Math.cos(2*Math.PI * i / 12);
     ctx.fillText(i ? i : 12, 100 + x, 100 - y);
   }
-  ctx.closePath();
 
   ctx.stroke();
   ctx.fill();
+  ctx.closePath();
   requestAnimationFrame(draw)
 }
 
-function drawSecondsTickle(){     
+function drawSecondsTickle(time){     
     ctx.beginPath();
     ctx.translate(100, 100);
-    var time = new Date();
     var s = time.getSeconds();
     var ms = time.getMilliseconds();
     ctx.rotate((s + ms/1000) * Math.PI * 2 / 60);  
-    ctx.fillRect(-1, 0, 2, -75);
+    ctx.fillRect(-1, 15, 2, -90);
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     if (ps !== s) {
       ps = s;      
@@ -84,24 +74,18 @@ function drawSecondsTickle(){
     ctx.closePath();
 }
 
-function drawMinutesTickle(){     
-    ctx.beginPath();
+function drawMinutesTickle(time){    
     ctx.translate(100, 100);
-    var time = new Date();
     var m = time.getMinutes();
     ctx.rotate(m * Math.PI * 2 / 60);  
-    ctx.fillRect(-2, 0, 4, -70);
+    ctx.fillRect(-2, 5, 4, -75);
     ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.closePath();
 }
 
-function drawHoursTickle(){     
-    ctx.beginPath();
+function drawHoursTickle(time){     
     ctx.translate(100, 100);
-    var time = new Date();
     var h = time.getHours();
     ctx.rotate(h * Math.PI * 2 / 12);  
     ctx.fillRect(-4, 0, 8, -50);
     ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.closePath();
 }
